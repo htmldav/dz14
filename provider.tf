@@ -53,15 +53,9 @@ resource "aws_security_group" "instance1606" {
   ]
 }
 
-# resource "tls_private_key" "example" {
-#   algorithm   = "RSA"
-#   rsa_bits = 4096
-# }
-
 resource "aws_key_pair" "generated_key" {
   key_name   = "generated_key"
   public_key = "${file("/root/.ssh/id_rsa.pub")}"
-  # public_key = tls_private_key.example.public_key_openssh
 }
 
 resource "aws_instance" "terraforminstance" {
@@ -70,13 +64,6 @@ resource "aws_instance" "terraforminstance" {
   vpc_security_group_ids = [aws_security_group.instance1606.id]
   key_name                    = aws_key_pair.generated_key.key_name
  
-  # provisioner "remote-exec" {
-  #   inline = [
-  #     "touch hello.txt",
-  #     "echo helloworld remote provisioner >> hello.txt",
-  #   ]
-  # }
-
   user_data = <<-EOF
                 #! /bin/bash
                 sudo apt-get update
@@ -86,6 +73,9 @@ resource "aws_instance" "terraforminstance" {
                 sudo apt-get install -y awscli
                 sudo apt-get install -y default-jdk
                 sudo apt-get install -y maven
+                sudo git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello
+                cd boxfuse-sample-java-war-hello/
+                mvn --batch-mode --quiet install
         EOF
 
   # _____________________________________________
