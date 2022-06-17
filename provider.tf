@@ -70,12 +70,80 @@ resource "aws_instance" "terraforminstance" {
   vpc_security_group_ids = [aws_security_group.instance1606.id]
   key_name                    = aws_key_pair.generated_key.key_name
  
-  provisioner "remote-exec" {
-    inline = [
-      "touch hello.txt",
-      "echo helloworld remote provisioner >> hello.txt",
-    ]
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "touch hello.txt",
+  #     "echo helloworld remote provisioner >> hello.txt",
+  #   ]
+  # }
+
+  user_data = <<EOF
+                #! /bin/bash
+                sudo apt-get update
+                sudo apt-get install -y python3-pip
+                sudo pip install boto3
+                sudo pip install botocore
+                sudo apt-get install -y awscli
+                sudo apt-get install -y default-jdk
+                sudo apt-get install -y maven
+        EOF
+
+  # _____________________________________________
+#     - name: Ensure pip3 is present
+#     apt:
+#       name: python3-pip
+#       state: present
+
+#   - name: Install boto3 and botocore with pip3 module
+#     pip:
+#       name: 
+#       - boto3
+#       - botocore
+#       state: present
+
+#   - name: Ensure awscli is present
+#     apt:
+#       name: awscli
+#       state: present
+
+# - hosts: deploy
+#   become: yes
+
+#   tasks:
+
+#   - name: Ensure maven is present
+#     apt:
+#       name: maven
+#       state: present
+
+#   - name: Ensure git is present
+#     apt:
+#       name: git
+#       state: present
+
+#   - name: Clone a github repository
+#     git:
+#       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello
+#       dest: /home/ubuntu/repos/
+#       clone: yes
+#       update: yes
+
+#   - name: "source code : local install"
+#     command: mvn --batch-mode --quiet install
+#     args:
+#       chdir: "/home/ubuntu/repos"
+
+#   - name: Simple PUT operation
+#     amazon.aws.aws_s3:
+#       aws_access_key: "{{ec2_access_key}}"
+#       aws_secret_key: "{{ec2_secret_key}}"
+#       bucket: test12062022
+#       object: hello-1.0.war
+#       src: /home/ubuntu/repos/target/hello-1.0.war
+#       mode: put
+  
+  # ___________________________
+
   connection {
       type        = "ssh"
       host        = self.public_ip
