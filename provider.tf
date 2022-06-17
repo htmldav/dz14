@@ -53,13 +53,15 @@ resource "aws_security_group" "instance1606" {
   ]
 }
 
-resource "tls_private_key" "example" {
-  algorithm   = "RSA"
-  rsa_bits = 4096
-}
+# resource "tls_private_key" "example" {
+#   algorithm   = "RSA"
+#   rsa_bits = 4096
+# }
 
 resource "aws_key_pair" "generated_key" {
-  public_key = tls_private_key.example.public_key_openssh
+  key_name   = "generated_key"
+  public_key = "${file("/root/.ssh/id_rsa.pub")}"
+  # public_key = tls_private_key.example.public_key_openssh
 }
 
 resource "aws_instance" "terraforminstance" {
@@ -78,6 +80,7 @@ resource "aws_instance" "terraforminstance" {
       type        = "ssh"
       host        = self.public_ip
       user        = "ubuntu"
-      private_key = tls_private_key.example.private_key_pem
+      private_key = file("/root/.ssh/id_rsa")
+      # private_key = tls_private_key.example.private_key_pem
    }
 }
