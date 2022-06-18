@@ -74,7 +74,7 @@ resource "aws_instance" "terraforminstance" {
                 sudo apt-get install -y default-jdk
                 sudo apt-get install -y maven
                 sudo apt-get install -y git
-                sudo git clone https://github.com/htmldav/boxfuse-sample-java-war-hello.git
+                git clone https://github.com/htmldav/boxfuse-sample-java-war-hello.git
                 cd boxfuse-sample-java-war-hello/
                 mvn --batch-mode --quiet install
                 # cd target/
