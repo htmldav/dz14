@@ -8,7 +8,8 @@ sudo apt-get install -y default-jdk
 sudo apt-get install -y maven
 sudo apt-get install -y git
 sudo mkdir -p /home/ubuntu/dir1806
-# git clone https://github.com/htmldav/boxfuse-sample-java-war-hello.git
+sudo cd /home/ubuntu/dir1806
+sudo git clone https://github.com/htmldav/boxfuse-sample-java-war-hello.git
 # cd boxfuse-sample-java-war-hello/
 # mvn --batch-mode --quiet install
 # cd target/
