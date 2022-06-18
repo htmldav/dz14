@@ -63,23 +63,9 @@ resource "aws_instance" "terraforminstance" {
   instance_type               = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance1606.id]
   key_name                    = aws_key_pair.generated_key.key_name
+
+  user_data = "${file("script.sh")}"
  
-  user_data = <<-EOF
-                #! /bin/bash
-                sudo apt-get update
-                sudo apt-get install -y python3-pip
-                sudo pip install boto3
-                sudo pip install botocore
-                sudo apt-get install -y awscli
-                sudo apt-get install -y default-jdk
-                sudo apt-get install -y maven
-                sudo apt-get install -y git
-                git clone https://github.com/htmldav/boxfuse-sample-java-war-hello.git
-                cd boxfuse-sample-java-war-hello/
-                mvn --batch-mode --quiet install
-                # cd target/
-                # aws s3 cp hello-1.0.war s3://test12062022/hello-1.0.war
-        EOF
 
   # _____________________________________________
 #     - name: Ensure pip3 is present
