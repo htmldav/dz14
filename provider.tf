@@ -76,8 +76,8 @@ resource "aws_instance" "terraforminstance" {
                 sudo git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello
                 cd boxfuse-sample-java-war-hello/
                 mvn --batch-mode --quiet install
-                cd target/
-                aws s3 cp hello-1.0.war s3://test12062022/hello-1.0.war
+                # cd target/
+                # aws s3 cp hello-1.0.war s3://test12062022/hello-1.0.war
         EOF
 
   # _____________________________________________
