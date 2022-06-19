@@ -1,9 +1,9 @@
 #! /bin/bash
 sudo apt-get update
 sudo apt-get install -y python3-pip
-# sudo pip install boto3
-# sudo pip install botocore
-sudo apt-get install -y python3-boto3
+sudo pip install boto3
+sudo pip install botocore
+# sudo apt-get install -y python3-boto3
 sudo apt-get install -y awscli
 sudo apt-get install -y default-jdk
 sudo apt-get install -y maven
