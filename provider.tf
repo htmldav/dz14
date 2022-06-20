@@ -127,69 +127,32 @@ resource "aws_instance" "terraforminstance" {
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
   user_data = "${file("script.sh")}"
- 
-
-  # _____________________________________________
-#     - name: Ensure pip3 is present
-#     apt:
-#       name: python3-pip
-#       state: present
-
-#   - name: Install boto3 and botocore with pip3 module
-#     pip:
-#       name: 
-#       - boto3
-#       - botocore
-#       state: present
-
-#   - name: Ensure awscli is present
-#     apt:
-#       name: awscli
-#       state: present
-
-# - hosts: deploy
-#   become: yes
-
-#   tasks:
-
-#   - name: Ensure maven is present
-#     apt:
-#       name: maven
-#       state: present
-
-#   - name: Ensure git is present
-#     apt:
-#       name: git
-#       state: present
-
-#   - name: Clone a github repository
-#     git:
-#       repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello
-#       dest: /home/ubuntu/repos/
-#       clone: yes
-#       update: yes
-
-#   - name: "source code : local install"
-#     command: mvn --batch-mode --quiet install
-#     args:
-#       chdir: "/home/ubuntu/repos"
-
-#   - name: Simple PUT operation
-#     amazon.aws.aws_s3:
-#       aws_access_key: "{{ec2_access_key}}"
-#       aws_secret_key: "{{ec2_secret_key}}"
-#       bucket: test12062022
-#       object: hello-1.0.war
-#       src: /home/ubuntu/repos/target/hello-1.0.war
-#       mode: put
-  
-  # ___________________________
 
   connection {
       type        = "ssh"
       host        = self.public_ip
       user        = "ubuntu"
       private_key = file("~/.ssh/id_rsa")
-      # private_key = tls_private_key.example.private_key_pem
+   }
+}
+
+resource "aws_instance" "terraforminstanceStage" {
+  ami                         = "ami-09d56f8956ab235b3"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.instance1606.id]
+  key_name                    = aws_key_pair.generated_key.key_name
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
+
+  user_data = "${file("scriptStage.sh")}"
+
+  tags = {
+    Name = "Stage"
+  }
+ 
+  connection {
+      type        = "ssh"
+      host        = self.public_ip
+      user        = "ubuntu"
+      private_key = file("~/.ssh/id_rsa")
    }
 }
