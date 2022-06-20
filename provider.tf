@@ -60,7 +60,7 @@ resource "aws_security_group" "instance1606" {
 
 resource "aws_key_pair" "generated_key" {
   key_name   = "generated_key"
-  public_key = "${file("/root/.ssh/id_rsa.pub")}"
+  public_key = "${file("~/.ssh/id_rsa.pub")}"
 }
 
 resource "aws_instance" "terraforminstance" {
@@ -132,7 +132,7 @@ resource "aws_instance" "terraforminstance" {
       type        = "ssh"
       host        = self.public_ip
       user        = "ubuntu"
-      private_key = file("/root/.ssh/id_rsa")
+      private_key = file("~/.ssh/id_rsa")
       # private_key = tls_private_key.example.private_key_pem
    }
 }
