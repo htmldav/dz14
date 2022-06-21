@@ -7,15 +7,8 @@ terraform {
   }
 }
 
-
-
 provider "aws" {
-  # shared_config_files      = ["/root/.aws/config"]
-  # shared_credentials_file = "/root/.aws/credentials"
   region = "us-east-1"
-  # shared_credentials_file = "~/.aws/credentials"
-  # access_key = var.access_key
-  # secret_key = var.secret_key
 }
 
 resource "aws_security_group" "instance1606" {
